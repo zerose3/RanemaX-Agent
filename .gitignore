@@ -1,0 +1,12 @@
+# Never commit credentials
+config.json
+config.enc
+
+# Runtime state / downloads
+.hwid
+.device_identifier
+.ranemax_state.json
+deployed_files/
+
+__pycache__/
+*.pyc
