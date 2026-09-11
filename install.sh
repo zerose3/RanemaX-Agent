@@ -28,7 +28,7 @@ echo "== RANEMAX Agent Installer =="
 
 echo "[1/4] Installing Python..."
 pkg update -y || echo "  (pkg update gagal/mirror sedang sync, lanjut pakai index yang ada)"
-pkg install python -y
+pkg install python python-cryptography -y
 
 echo "[2/4] Downloading agent files from your repo..."
 mkdir -p "$INSTALL_DIR"
@@ -39,7 +39,9 @@ for f in "${FILES[@]}"; do
 done
 
 echo "[3/4] Installing Python dependencies..."
-pip install -r requirements.txt
+# cryptography is installed via 'pkg' above (precompiled for Termux/Android) —
+# building it with pip requires a Rust toolchain and usually fails on Android.
+pip install requests
 
 echo "[4/4] Preparing config..."
 if [ ! -f config.json ] && [ ! -f config.enc ]; then
