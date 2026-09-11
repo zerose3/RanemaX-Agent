@@ -33,6 +33,7 @@ Run:
 import hashlib
 import json
 import os
+import re
 import subprocess
 import sys
 import time
@@ -89,7 +90,9 @@ def load_config() -> dict:
         "supabase_anon_key": get("supabase_anon_key", "RANEMAX_SUPABASE_ANON_KEY"),
         "email": get("email", "RANEMAX_EMAIL"),
         "password": get("password", "RANEMAX_PASSWORD"),
-        "device_name": get("device_name", "RANEMAX_DEVICE_NAME", default="Android Cloud Device"),
+        "device_name": get(
+            "device_name", "RANEMAX_DEVICE_NAME", default=get_device_model()
+        ),
         "device_identifier": get(
             "device_identifier", "RANEMAX_DEVICE_IDENTIFIER", default=default_identifier()
         ),
@@ -98,12 +101,45 @@ def load_config() -> dict:
     }
 
 
+def _getprop(prop: str) -> str:
+    try:
+        return subprocess.check_output(
+            ["getprop", prop], stderr=subprocess.DEVNULL, timeout=3
+        ).decode().strip()
+    except Exception:
+        return ""
+
+
+def get_device_model() -> str:
+    """Auto-detects a human-readable device name, e.g. 'Samsung SM-A356E'
+    or 'Google Pixel 7'. Falls back to a generic name if getprop is
+    unavailable (e.g. running outside Termux/Android for testing)."""
+    manufacturer = _getprop("ro.product.manufacturer").strip()
+    model = _getprop("ro.product.model").strip()
+
+    if model and manufacturer and manufacturer.lower() not in model.lower():
+        return f"{manufacturer.title()} {model}"
+    if model:
+        return model
+    return "Android Cloud Device"
+
+
+def slugify(text: str) -> str:
+    text = text.lower().strip()
+    text = re.sub(r"[^a-z0-9]+", "-", text)
+    return text.strip("-") or "device"
+
+
 def default_identifier() -> str:
-    """Generates and persists a stable identifier for this device."""
+    """Generates and persists a stable, human-readable identifier for this
+    device, e.g. 'google-pixel-7-a1b2c3'. Reused across restarts so the
+    same physical/cloud device always maps to the same dashboard entry."""
     id_file = Path(__file__).parent / ".device_identifier"
     if id_file.exists():
         return id_file.read_text().strip()
-    new_id = f"ranemax-{uuid.uuid4().hex[:10]}"
+    slug = slugify(get_device_model())
+    suffix = get_hwid()[:6]
+    new_id = f"{slug}-{suffix}"
     id_file.write_text(new_id)
     return new_id
 

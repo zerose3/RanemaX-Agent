@@ -1,8 +1,8 @@
 {
-  "supabase_url": "https://your-project-ref.supabase.co",
-  "supabase_anon_key": "your-anon-public-key",
-  "email": "your-ranemax-login@email.com",
-  "password": "your-ranemax-login-password",
+  "supabase_url": "https://voytfbikwauqaowheupz.supabase.co",
+  "supabase_anon_key": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InZveXRmYmlrd2F1cWFvd2hldXB6Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODkwODkyNzcsImV4cCI6MjEwNDY2NTI3N30.TaBpqf05WZe7PT0Y_v-cVy0W7E3wuZPQfuUxejKhkoY",
+  "email": "Wirabintang966@email.com",
+  "password": "Ranemax1615",
   "device_name": "Pixel 7 Cloud",
   "device_identifier": "pixel7-cloud-01",
   "heartbeat_seconds": 15,
