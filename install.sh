@@ -16,7 +16,7 @@ set -e
 # TODO: replace this with the raw URL of YOUR OWN repo/gist where
 # you've uploaded the ranemax-agent files. Example if using GitHub:
 #   https://raw.githubusercontent.com/<username>/<repo>/main
-RAW_BASE_URL="https://raw.githubusercontent.com/YOUR_USERNAME/YOUR_REPO/main"
+RAW_BASE_URL="https://raw.githubusercontent.com/zerose3/RanemaX-Agent/main"
 
 INSTALL_DIR="$HOME/ranemax-agent"
 FILES=(
