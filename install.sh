@@ -13,9 +13,6 @@
 
 set -e
 
-# TODO: replace this with the raw URL of YOUR OWN repo/gist where
-# you've uploaded the ranemax-agent files. Example if using GitHub:
-#   https://raw.githubusercontent.com/<username>/<repo>/main
 RAW_BASE_URL="https://raw.githubusercontent.com/zerose3/RanemaX-Agent/main"
 
 INSTALL_DIR="$HOME/ranemax-agent"
@@ -30,8 +27,8 @@ FILES=(
 echo "== RANEMAX Agent Installer =="
 
 echo "[1/4] Installing Python..."
-pkg update -y >/dev/null
-pkg install python -y >/dev/null
+pkg update -y || echo "  (pkg update gagal/mirror sedang sync, lanjut pakai index yang ada)"
+pkg install python -y
 
 echo "[2/4] Downloading agent files from your repo..."
 mkdir -p "$INSTALL_DIR"
